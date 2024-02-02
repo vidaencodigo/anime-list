@@ -1,0 +1,19 @@
+.actions--list{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.actions--link{
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  cursor: pointer;
+  text-decoration: none;
+  color: #0F0F0F;
+  font-weight: 700;
+}
+
+.icons-left{
+  font-size: 1.4rem;
+}

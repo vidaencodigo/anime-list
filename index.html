@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My anime</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+  <link rel="stylesheet" href="assets/css/main.css">
+  <link rel="stylesheet" href="assets/css/card.css">
+  <link rel="stylesheet" href="assets/css/left_bar.css">
+  <link rel="stylesheet" href="assets/css/anime_list.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+</head>
+
+<body>
+  <nav class="nav">
+    <div class="content-nav">
+      <h1>My anime</h1>
+    </div>
+  </nav>
+  <div class="content">
+    <main class="main">
+      <section class="left--bar">
+        <h4>Actions</h4>
+        <div class="actions--list">
+          <div class="actions--item">
+            <a href="#" class="actions--link">
+
+              <i class='bx bxs-bookmarks icons-left'></i>
+              <p>Favorites</p>
+            </a>
+          </div>
+
+          <div class="actions--item">
+            <a href="#" class="actions--link">
+              <i class='bx bx-cog icons-left'></i>
+              <p>
+                Settings
+              </p>
+            </a>
+          </div>
+
+        </div>
+      </section>
+      <section class="main--body">
+        <h4>Anime</h4>
+        <div class="search--bar">
+          <div class="search--icon">
+            <i class='bx bx-search-alt bx-tada-hover'></i>
+          </div>
+          <div class="search--input">
+            <input type="text" name="q" class="input--search" autofocus>
+          </div>
+          <div class="search--button">
+            <button class="button search--btn btn--flat"> > </button>
+          </div>
+        </div>
+
+        <div class="anime--list">
+          <!-- anime card -->
+        </div>
+      </section>
+    </main>
+  </div>
+  <footer class="footer">
+    <div class="footer--content">
+      <div>
+        <p>Copyright © 2024 Creted by <a href="https://github.com/vidaencodigo" target="_blank">Emmanuel</a></p> <img class="icc" src="assets/images/heart.png" alt="heart">
+      </div>
+      <div>
+        <p>Powered by <a href="https://jikan.moe/" target="_blank">Jikan</a></p>
+      </div>
+    </div>
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+  <script src="assets/js/main.js"></script>
+  <script>
+
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelector('.input--search').addEventListener('keyup', (e)=>{
+        if(e.key === 'Enter'){
+          getAnime();
+          this.value = '';
+        }
+      });
+      document.querySelector('.search--btn').addEventListener('click', getAnime);
+      getRandomAnime().then(anime => {
+        anime.forEach(anime => {
+          let image = anime.images.jpg.large_image_url
+          let title = anime.title
+          let id = anime.mal_id;
+          create_card(image, title, id);
+        })
+      }).catch(error => {
+        console.log(error);
+      })
+    });
+   
+  </script>
+</body>
+
+</html>

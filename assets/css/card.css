@@ -1,0 +1,30 @@
+/* estilo card */
+
+.card {
+  width: 300px;
+  min-width: 250px;
+  min-height: 483px;
+  
+  padding: 10px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.retro--card {
+  border: 2px solid #0f0f0f;
+  box-shadow: 6px 6px 0px 0px rgba(0, 0, 0);
+  background-color: #FEFFF2;
+  font-weight: 700;
+  justify-content: space-around;
+}
+.responsive{
+  width:100%;
+}
+.buttons{
+  display: flex;
+  gap:10px;
+  justify-content: flex-end;
+  align-self: flex-end;
+  justify-self:end;
+}
