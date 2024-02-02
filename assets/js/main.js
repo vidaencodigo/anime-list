@@ -1,4 +1,11 @@
 var array = []; // this array contents all favs 
+let animes = [];
+if (localStorage.getItem('anime') === null) {
+  localStorage.setItem('anime', '[]');
+}
+array = JSON.parse(localStorage.getItem('anime') || '[]');
+
+
 async function getAnime() {
   // get anime by name
   const input = document.querySelector('.input--search')
@@ -9,7 +16,7 @@ async function getAnime() {
   const data = await response.json();
   document.querySelector('.anime--list').innerHTML = '';
   try {
-    if(data.data.length === 0){
+    if (data.data.length === 0) {
       // can we put image not found
       document.querySelector('.anime--list').innerHTML = `<h2>Not found</h2>`;
     }
@@ -27,19 +34,22 @@ async function getAnime() {
 async function getRandomAnime() {
   // get random anime from api
   const url = `https://api.jikan.moe/v4/anime?sfw&limit=24&type=tv&order_by=popularity&page=1`;
-  const page =new URL(url).searchParams.get('page');
+  const page = new URL(url).searchParams.get('page');
   document.querySelector('.anime--list').innerHTML = `<h2>Loading</h2>`;
   const response = await fetch(url);
   const data = await response.json();
   console.log("actual page: " + page);
-  console.log("datos de paginacion: "+ JSON.stringify(data.pagination));
+  console.log("datos de paginacion: " + JSON.stringify(data.pagination));
   document.querySelector('.anime--list').innerHTML = ``;
   return data.data
-  
+
 }
 
 
 function create_card(image, title, id) {
+  animes = array.map(anime => {
+    return JSON.parse(anime);
+  })
   const card = document.createElement('section');
   card.classList.add('card', 'retro--card');
   // image section
@@ -75,9 +85,11 @@ function create_card(image, title, id) {
   button_fv.setAttribute('data-image', image);
   button_fv.textContent = 'Favorite';
   button_fv.addEventListener('click', addFav);
-
+  if (!animes.find(anime => anime.id === id)) {
+    // if it in favs not add btn
+    buttons.appendChild(button_fv);
+  }
   buttons.appendChild(button_details);
-  buttons.appendChild(button_fv);
 
   cardActions.appendChild(buttons);
 
@@ -102,13 +114,13 @@ function addFav(event) {
   console.log(json);
   // here we save the anime in local storage, pending verify the favs saved
   saveLocalStorage(json);
+  loadAnimes();
 
 }
 
 function saveLocalStorage(json) {
   try {
-    localStorage.getItem('anime');
-    array = JSON.parse(localStorage.getItem('anime') || '[]');
+
     array.push(json);
     localStorage.setItem('anime', JSON.stringify(array));
     myFunc();
@@ -129,3 +141,16 @@ function myFunc() {
   }).showToast();
 }
 // JSON.parse(localStorage.getItem('anime')) get favs anime
+
+function loadAnimes() {
+  getRandomAnime().then(anime => {
+    anime.forEach(anime => {
+      let image = anime.images.jpg.large_image_url
+      let title = anime.title
+      let id = anime.mal_id;
+      create_card(image, title, id);
+    })
+  }).catch(error => {
+    console.log(error);
+  })
+}

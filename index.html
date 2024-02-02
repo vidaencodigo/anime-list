@@ -85,16 +85,7 @@
         }
       });
       document.querySelector('.search--btn').addEventListener('click', getAnime);
-      getRandomAnime().then(anime => {
-        anime.forEach(anime => {
-          let image = anime.images.jpg.large_image_url
-          let title = anime.title
-          let id = anime.mal_id;
-          create_card(image, title, id);
-        })
-      }).catch(error => {
-        console.log(error);
-      })
+      loadAnimes();
     });
    
   </script>
